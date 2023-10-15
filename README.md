@@ -1,1 +1,1 @@
-# SlidingTilePuzzle
+# Sliding Tile Puzzle
