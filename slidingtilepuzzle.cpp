@@ -29,32 +29,6 @@ def main():
 
 
 
-def findBlankSpace(board):
-    """Return an (x, y) tuple of the blank space's location."""
-    for x in range(4):
-        for y in range(4):
-            if board[x][y] == '  ':
-                return (x, y)
-
-
-def askForPlayerMove(board):
-    """Let the player select a tile to slide."""
-    blankx, blanky = findBlankSpace(board)
-
-    w = 'W' if blanky != 3 else ' '
-    a = 'A' if blankx != 3 else ' '
-    s = 'S' if blanky != 0 else ' '
-    d = 'D' if blankx != 0 else ' '
-
-    while True:
-        print('                          ({})'.format(w))
-        print('Enter WASD (or QUIT): ({}) ({}) ({})'.format(a, s, d))
-
-        response = input('> ').upper()
-        if response == 'QUIT':
-            sys.exit()
-        if response in (w + a + s + d).replace(' ', ''):
-            return response
 
 
 def makeMove(board, move):
@@ -142,6 +116,85 @@ void displayBoard(vector<vector<string>> board) {
     cout << "+ ------ + ------ + ------ + ------ +\n";
 }
 
+void findBlankSpace(vector<vector<string>>& board, int& x, int& y) {
+    // Return an (x, y) tuple of the blank space's location.
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 4; ++j) {
+            if (board[i][j] == BLANK) {
+                x = i;
+                y = j;
+                return;
+            }
+        }
+    }
+}
+
+char askForPlayerMove(vector<vector<string>>& board) {
+    // Let the player select a tile to slide.
+    int blankx = -1, blanky = -1;
+    findBlankSpace(board, blankx, blanky);
+    char w, a, s, d;
+    
+    if (blanky != 3) {
+        w = 'W';
+    } else {
+        w = ' ';
+    }
+
+    if (blankx != 3) {
+        a = 'A';
+    } else {
+        a = ' ';
+    }
+
+    if (blanky != 0) {
+        s = 'S';
+    } else {
+        s = ' ';
+    }
+
+    if (blankx != 0) {
+        d = 'D';
+    } else {
+        d = ' ';
+    }
+
+    while (1) {
+        cout << "                          (" << w << ")\n";
+        cout << "Enter WASD (or QUIT): (" << a << ") (" << s << ") (" << d << ")\n";
+        cout << "> ";
+        string response = ""; // Сделать upper
+        getline(cin, response);
+        if (response == "QUIT") {
+            // реализовать завершение программы
+        }
+
+
+        /*
+        if response in(w + a + s + d).replace(' ', '') :
+            return response
+        
+
+
+
+        w = 'W'
+a = 'A'
+s = 'S'
+d = 'D'
+
+response = input('> ').upper()
+print(w + a + s + d)
+if response in (w + a + s + d).replace(' ', ''):
+    print(response)
+
+print('YYY')
+
+
+
+        */
+
+    }
+}
 
 
 int main() {
@@ -151,6 +204,9 @@ int main() {
 
     vector<vector<string>> tmp = getNewBoard();
     displayBoard(tmp);
+    int x = -1, y = -1;
+    findBlankSpace(tmp, x, y);
+
 
     return 0;
 }
