@@ -31,20 +31,6 @@ def main():
 
 
 
-def makeMove(board, move):
-    """Carry out the given move on the given board."""
-    # Note: This function assumes that the move is valid.
-    bx, by = findBlankSpace(board)
-
-    if move == 'W':
-        board[bx][by], board[bx][by+1] = board[bx][by+1], board[bx][by]
-    elif move == 'A':
-        board[bx][by], board[bx+1][by] = board[bx+1][by], board[bx][by]
-    elif move == 'S':
-        board[bx][by], board[bx][by-1] = board[bx][by-1], board[bx][by]
-    elif move == 'D':
-        board[bx][by], board[bx-1][by] = board[bx-1][by], board[bx][by]
-
 
 def makeRandomMove(board):
     """Perform a slide in a random direction."""
@@ -129,12 +115,12 @@ void findBlankSpace(vector<vector<string>>& board, int& x, int& y) {
     }
 }
 
-char askForPlayerMove(vector<vector<string>>& board) {
+string askForPlayerMove(vector<vector<string>>& board) {
     // Let the player select a tile to slide.
     int blankx = -1, blanky = -1;
     findBlankSpace(board, blankx, blanky);
     char w, a, s, d;
-    
+
     if (blanky != 3) {
         w = 'W';
     } else {
@@ -168,33 +154,31 @@ char askForPlayerMove(vector<vector<string>>& board) {
         if (response == "QUIT") {
             // реализовать завершение программы
         }
-
-
-        /*
-        if response in(w + a + s + d).replace(' ', '') :
-            return response
-        
-
-
-
-        w = 'W'
-a = 'A'
-s = 'S'
-d = 'D'
-
-response = input('> ').upper()
-print(w + a + s + d)
-if response in (w + a + s + d).replace(' ', ''):
-    print(response)
-
-print('YYY')
-
-
-
-        */
+        for (char c : response) {
+            if (c == w || c == a || c == s || d) {
+                return response;
+            }
+        }
 
     }
 }
+
+void makeMove(vector<vector<string>>& board, string& move, int& bx, int& by) {
+    // Carry out the given move on the given board.
+    // Note : This function assumes that the move is valid.
+    findBlankSpace(board, bx, by);
+    if (move == "W") {
+        swap(board[bx][by], board[bx][by + 1]);
+    } else if (move == "A") {
+        swap(board[bx][by], board[bx + 1][by]);
+    } else if (move == "S") {
+        swap(board[bx][by], board[bx][by - 1]);
+    } else if (move == "D") {
+        swap(board[bx][by], board[bx - 1][by]);
+    }
+}
+
+
 
 
 int main() {
@@ -204,9 +188,9 @@ int main() {
 
     vector<vector<string>> tmp = getNewBoard();
     displayBoard(tmp);
-    int x = -1, y = -1;
-    findBlankSpace(tmp, x, y);
-
+    // int x = -1, y = -1;
+    // findBlankSpace(tmp, x, y);
+    cout << askForPlayerMove(tmp) << endl;
 
     return 0;
 }
