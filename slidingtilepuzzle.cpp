@@ -5,62 +5,6 @@ import random, sys
 
 
 
-def main():
-    print('''Sliding Tile Puzzle, by Al Sweigart al@inventwithpython.com
-
-    Use the WASD keys to move the tiles
-    back into their original order:
-           1  2  3  4
-           5  6  7  8
-           9 10 11 12
-          13 14 15   ''')
-    input('Press Enter to begin...')
-
-    gameBoard = getNewPuzzle()
-
-    while True:
-        displayBoard(gameBoard)
-        playerMove = askForPlayerMove(gameBoard)
-        makeMove(gameBoard, playerMove)
-
-        if gameBoard == getNewBoard():
-            print('You won!')
-            sys.exit()
-
-
-
-
-
-
-def makeRandomMove(board):
-    """Perform a slide in a random direction."""
-    blankx, blanky = findBlankSpace(board)
-    validMoves = []
-    if blanky != 3:
-        validMoves.append('W')
-    if blankx != 3:
-        validMoves.append('A')
-    if blanky != 0:
-        validMoves.append('S')
-    if blankx != 0:
-        validMoves.append('D')
-
-    makeMove(board, random.choice(validMoves))
-
-
-def getNewPuzzle(moves=200):
-    """Get a new puzzle by making random slides from a solved state."""
-    board = getNewBoard()
-
-    for i in range(moves):
-        makeRandomMove(board)
-    return board
-
-
-# If this program was run (instead of imported), run the game:
-if __name__ == '__main__':
-    main()
-
 */
 
 // Sliding Tile Puzzle, by Al Sweigart al@inventwithpython.com
@@ -178,19 +122,65 @@ void makeMove(vector<vector<string>>& board, string& move, int& bx, int& by) {
     }
 }
 
+void makeRandomMove(vector<vector<string>>& board) {
+    // Perform a slide in a random direction.
+    int blankx = -1, blanky = -1;
+    findBlankSpace(board, blankx, blanky);
+    vector<string> validMoves;
+    if (blanky != 3) {
+        validMoves.push_back("W");
+    }
+    if (blankx != 3) {
+        validMoves.push_back("A");
+    }
+    if (blanky != 0) {
+        validMoves.push_back("S");
+    }
+    if (blankx != 0) {
+        validMoves.push_back("D");
+    }
+    int start = 0;
+    int end = validMoves.size() - 1;
+    int x = rand() % (end - start + 1) + start; // Реализовать случаное число
+    string choice = validMoves[x];
+    makeMove(board, choice, blankx, blanky);
+}
 
+vector<vector<string>> getNewPuzzle(int moves = 200) {
+    // Get a new puzzle by making random slides from a solved state.
+    vector<vector<string>> board = getNewBoard();
+    for (int i = 0; i < 200; ++i) {
+        makeRandomMove(board);
+    }
+    return board;
+}
 
 
 int main() {
+    /*
+    print('''Sliding Tile Puzzle, by Al Sweigart al@inventwithpython.com
 
-
-
-
-    vector<vector<string>> tmp = getNewBoard();
-    displayBoard(tmp);
-    // int x = -1, y = -1;
-    // findBlankSpace(tmp, x, y);
-    cout << askForPlayerMove(tmp) << endl;
+        Use the WASD keys to move the tiles
+        back into their original order :
+1  2  3  4
+5  6  7  8
+9 10 11 12
+13 14 15   ''')
+    */
+    cout << "Press Enter to begin...";
+    vector<vector<string>> gameBoard = getNewPuzzle();
+    // Реализовать пустой ввод
+    while (1) {
+        displayBoard(gameBoard);
+        string playerMove = askForPlayerMove(gameBoard);
+        int x, y;
+        findBlankSpace(gameBoard, x, y);
+        makeMove(gameBoard, playerMove, x, y);
+        if (gameBoard == getNewBoard()) {
+            cout << "You won!";
+            return 0;
+        }
+    }
 
     return 0;
 }
