@@ -1,7 +1,7 @@
 // Sliding Tile Puzzle, by Al Sweigart
 // Slide the numbered tiles into the correct order.
 // This code is available at https ://nostarch.com/big-book-small-python-programming
-// 68 SLIDING TILE PUZZLE
+// #68 SLIDING TILE PUZZLE
 
 #include <iostream>
 #include <vector>
@@ -86,7 +86,7 @@ string askForPlayerMove(vector<vector<string>>& board) {
         cout << "                          (" << w << ")\n";
         cout << "Enter WASD (or QUIT): (" << a << ") (" << s << ") (" << d << ")\n";
         cout << "> ";
-        string response = ""; // Сделать upper
+        string response = "";
         getline(cin, response);
         transform(response.begin(), response.end(), response.begin(), ::toupper);
         if (response == "QUIT") {
@@ -143,7 +143,7 @@ void makeRandomMove(vector<vector<string>>& board) {
     // Generate a random number between 1 and 100
     int random_number = distribution(gen);
 
-    //int x = rand() % (end - start + 1) + start; // Реализовать случаное число
+    //int x = rand() % (end - start + 1) + start; // ГђГҐГ Г«ГЁГ§Г®ГўГ ГІГј Г±Г«ГіГ·Г Г­Г®ГҐ Г·ГЁГ±Г«Г®
     string choice = validMoves[random_number];
     makeMove(board, choice, blankx, blanky);
 }
