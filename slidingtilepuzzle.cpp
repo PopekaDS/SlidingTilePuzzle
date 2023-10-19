@@ -1,23 +1,16 @@
-/*
-
-import random, sys
-
-
-
-
-*/
-
-// Sliding Tile Puzzle, by Al Sweigart al@inventwithpython.com
+// Sliding Tile Puzzle, by Al Sweigart
 // Slide the numbered tiles into the correct order.
 // This code is available at https ://nostarch.com/big-book-small-python-programming
-
+// 68 SLIDING TILE PUZZLE
 
 #include <iostream>
 #include <vector>
 #include <string>
+#include <algorithm>
+#include <random>
 using namespace std;
 
-string BLANK = "  "; // Note: This string is two spaces, not one.
+string BLANK = "  ";
 
 vector<vector<string>> getNewBoard() {
     // Return a list of lists that represents a new tile puzzle.
@@ -95,11 +88,12 @@ string askForPlayerMove(vector<vector<string>>& board) {
         cout << "> ";
         string response = ""; // Сделать upper
         getline(cin, response);
+        transform(response.begin(), response.end(), response.begin(), ::toupper);
         if (response == "QUIT") {
-            // реализовать завершение программы
+            exit(0);
         }
         for (char c : response) {
-            if (c == w || c == a || c == s || d) {
+            if (c == w || c == a || c == s || c == d) {
                 return response;
             }
         }
@@ -141,8 +135,16 @@ void makeRandomMove(vector<vector<string>>& board) {
     }
     int start = 0;
     int end = validMoves.size() - 1;
-    int x = rand() % (end - start + 1) + start; // Реализовать случаное число
-    string choice = validMoves[x];
+
+    // Create a random number generator engine
+    std::random_device rd;  // Seed the random number generator
+    std::mt19937 gen(rd()); // Mersenne Twister PRNG engine
+    std::uniform_int_distribution<int> distribution(start, end); // Define the range
+    // Generate a random number between 1 and 100
+    int random_number = distribution(gen);
+
+    //int x = rand() % (end - start + 1) + start; // Реализовать случаное число
+    string choice = validMoves[random_number];
     makeMove(board, choice, blankx, blanky);
 }
 
@@ -157,19 +159,15 @@ vector<vector<string>> getNewPuzzle(int moves = 200) {
 
 
 int main() {
-    /*
-    print('''Sliding Tile Puzzle, by Al Sweigart al@inventwithpython.com
+    cout << "Sliding Tile Puzzle\n";
+    cout << "Use the WASD keys to move the tiles\n";
+    cout << "back into their original order:\n";
+    cout << " 1  2  3  4\n 5  6  7  8\n 9 10 11 12\n13 14 15   \n";
 
-        Use the WASD keys to move the tiles
-        back into their original order :
-1  2  3  4
-5  6  7  8
-9 10 11 12
-13 14 15   ''')
-    */
-    cout << "Press Enter to begin...";
+    cout << "Press Enter to begin...\n";
+    string str;
+    getline(cin, str);
     vector<vector<string>> gameBoard = getNewPuzzle();
-    // Реализовать пустой ввод
     while (1) {
         displayBoard(gameBoard);
         string playerMove = askForPlayerMove(gameBoard);
