@@ -140,10 +140,9 @@ void makeRandomMove(vector<vector<string>>& board) {
     std::random_device rd;  // Seed the random number generator
     std::mt19937 gen(rd()); // Mersenne Twister PRNG engine
     std::uniform_int_distribution<int> distribution(start, end); // Define the range
-    // Generate a random number between 1 and 100
+    // Generate a random number
     int random_number = distribution(gen);
 
-    //int x = rand() % (end - start + 1) + start; // Ðåàëèçîâàòü ñëó÷àíîå ÷èñëî
     string choice = validMoves[random_number];
     makeMove(board, choice, blankx, blanky);
 }
